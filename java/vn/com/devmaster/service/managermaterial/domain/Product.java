@@ -19,6 +19,14 @@ public class Product {
     @Column(name = "NAME", length = 500)
     private String name;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     @Lob
     @Column(name = "DESCRIPTION")
     private String description;
@@ -54,5 +62,7 @@ public class Product {
 
     @Column(name = "ISACTIVE")
     private Byte isactive;
+
+
 
 }

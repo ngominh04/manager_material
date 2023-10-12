@@ -1,23 +1,26 @@
 package vn.com.devmaster.service.managermaterial.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import vn.com.devmaster.service.managermaterial.domain.Category;
 import vn.com.devmaster.service.managermaterial.domain.Customer;
-import vn.com.devmaster.service.managermaterial.domain.Order;
-import vn.com.devmaster.service.managermaterial.domain.OrdersDetail;
+import vn.com.devmaster.service.managermaterial.domain.Product;
+import vn.com.devmaster.service.managermaterial.projecttion.IProduct;
+import vn.com.devmaster.service.managermaterial.reponsitory.ProductRespon;
 import vn.com.devmaster.service.managermaterial.reponsitory.Responsitory;
 import vn.com.devmaster.service.managermaterial.service.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
 public class Controller {
     @Autowired
     Responsitory responsitory;
+    @Autowired
+    ProductRespon productRespon;
     @Autowired
     Service service;
 
@@ -30,9 +33,16 @@ public class Controller {
     List<Customer> getCustomer() {
         return responsitory.getCustomer();}
 
-    @GetMapping("/order")
-    List<Order> getOrder(){return responsitory.getOrder();}
+    @GetMapping("/products")
+    List<IProduct> getProduct(){
+        return  responsitory.getProduct();
+    }
 
-//    @GetMapping("/ordersDetail")
-//    List<OrdersDetail> getOrdersDetail(){return responsitory.getOrdersDetail();}
+//    @GetMapping("/finById/{id}")
+//    Optional<Product> getById(@PathVariable Integer id){return service.finById(id);}
+
+//    @GetMapping("/getById")
+//    public ResponseEntity<List<Product>> getProductById(@RequestParam Integer id){
+//        return new ResponseEntity<>(productRespon.findByName(id), HttpStatus.OK);
+//    }
 }
