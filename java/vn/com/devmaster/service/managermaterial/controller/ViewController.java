@@ -10,6 +10,8 @@ import vn.com.devmaster.service.managermaterial.reponsitory.ProductRespon;
 import vn.com.devmaster.service.managermaterial.reponsitory.Responsitory;
 import vn.com.devmaster.service.managermaterial.service.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 @Controller
 @RequestMapping("/view")
 public class ViewController {
@@ -19,8 +21,7 @@ public class ViewController {
 
     @Autowired
     ProductRespon productRespon;
-//    @Autowired
-//    ImageRespon imageRespon;
+
     @Autowired
     Service service;
 
@@ -60,36 +61,85 @@ public class ViewController {
         return "product_mac";
     }
 
+    // show toàn bộ những hình thức thanh toán
     @GetMapping("/payment_method")
     String showPaymentMethod(Model model){
         model.addAttribute("payment_method",responsitory.getPaymentMethod());
         return "paymentMethod";
     }
 
+    // show toàn bộ phương thức giao hàng
     @GetMapping("/transport_method")
     String showTransportMethod(Model model){
         model.addAttribute("transport_method",responsitory.getTransport());
         return "transportMethod";
     }
+
+    // show toàn bộ product
     @GetMapping("/productAll")
     String showAllProduct(Model model){
         model.addAttribute("productAll",responsitory.getProduct());
         return "productAll";
     }
 
-    @GetMapping("/productImage")
-    public String showProductImg(Model model,@PathVariable(name = "id") Integer id){
-        model.addAttribute("productImage",responsitory.getProductImage(id));
-        return "productImage";
-    }
+    // lấy ảnh theo id
+//    @GetMapping("/productImage")
+//    public String showProductImg(Model model,@PathVariable(name = "id") Integer id){
+//        model.addAttribute("productImage",responsitory.getProductImage(id));
+//        return "productImage";
+//    }
 
+    // lấy ra product id chi tiết
     @GetMapping("/productAll/{id}")
     String showProductChiTiets(Model model,@PathVariable(name = "id") Integer id){
         model.addAttribute("productId",productRespon.findAllById(id));
+        model.addAttribute("productImage",responsitory.getProductImage(id));
         model.addAttribute("imageId",responsitory.getProductImage(id));
         return "productChiTiet";
     }
 
+//    @GetMapping("/getOdertranport")
+//    String showTranport_Id(Model model, @PathVariable(name = "id1") Integer id1){
+//        model.addAttribute("tranport1",responsitory.getTransPort1(id1));
+//        return "oder/odertranport";
+//    }
+
+    // id product -> trang đặt hàng
+    @GetMapping("/getOder/{id}")
+    String showOder_1(Model model,@PathVariable(name = "id") Integer id){
+        model.addAttribute("productId",productRespon.findAllById(id));
+        model.addAttribute("payment",responsitory.getPaymentActive());
+        model.addAttribute("tranport",responsitory.getTransPort(id));
+//        model.addAttribute("tranport1",responsitory.getTransPort1(id1));
+//        model.addAttribute("tranport2",responsitory.getTransPort2(id,id1));
+//        model.addAttribute("imageId",responsitory.getProductImage(id));
+        return "oder/oderChiTiet";
+    }
+
+    // lấy id product và id transport -> ra trang tổng tiền
+    @GetMapping("/getOder/{id}/{id1}")
+    String showOder_2(Model model,@PathVariable(name = "id") Integer id,@PathVariable(name = "id1") Integer id1){
+        model.addAttribute("productId",productRespon.findAllById(id));
+        model.addAttribute("payment",responsitory.getPaymentActive());
+        model.addAttribute("tranport",responsitory.getTransPort(id));
+//        model.addAttribute("tranport1",responsitory.getTransPort1(id1));
+        model.addAttribute("tranport2",responsitory.getTransPort2(id,id1));
+        return "oder/oders";
+    }
+
+//    // lấy oder theo id
+//    @GetMapping("/getOder")
+//    public String showOder(Model model,@PathVariable(name = "id2") Integer id2){
+//        model.addAttribute("oder",responsitory.getOders(id2));
+//        return "oder/oders";
+//    }
+//
+//    @GetMapping("/getOder/{id2}")
+//    public String showOders(Model model,@PathVariable(name = "id2") Integer id2){
+////        model.addAttribute("productId",productRespon.findAllById(id1));
+//        model.addAttribute("oderId",responsitory.getOders(id2));
+//        return "oder/oderChiTiet";
+//    }
 
 //    @GetMapping("/delete/{id}")
 //    public String deleteProduct(@PathVariable(name = "id") Integer id){
@@ -97,18 +147,21 @@ public class ViewController {
 //        return "rederect:/";
 //    }
 
+    // lọc dưới 10 tr
     @GetMapping("/locPrice_10")
     public String showLocPrice(Model model){
         model.addAttribute("locPrice_10",responsitory.getLocPrice());
         return "locTheoGia/locPrice";
     }
 
+    // lọc 10 đến 15tr
     @GetMapping("/locPrice_10_15")
     public String showLocPrice1(Model model){
         model.addAttribute("locPrice_10_15",responsitory.getLocPrice1());
         return "locTheoGia/locPrice1";
     }
 
+    // lọc 15 đến 20tr
     @GetMapping("/locPrice_15_20")
     public String showLocPrice2(Model model){
         model.addAttribute("locPrice_15_20",responsitory.getLocPrice2());
@@ -132,9 +185,5 @@ public class ViewController {
         model.addAttribute("locPrice_25_30",responsitory.getLocPrice5());
         return "locTheoGia/locPrice5";
     }
-
-
-
-
 
 }

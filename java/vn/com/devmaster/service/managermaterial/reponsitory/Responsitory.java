@@ -69,4 +69,17 @@ public interface Responsitory extends JpaRepository<Category, Integer> {
 
     @Query(value = Sql.PRODUCT_TRANGCHU,nativeQuery = true)
     List<IProduct> getProductTC();
+
+    @Query(value = Sql.ODERS,nativeQuery = true)
+    List<IOders> getOders(Integer id2);
+
+    @Query(value = Sql.THANH_TOAN,nativeQuery = true)
+    List<IPayment_method> getPaymentActive();
+
+    @Query(value = Sql.VAN_CHUYEN,nativeQuery = true)
+    List<ITransport> getTransPort(Integer id);
+    @Query(value = Sql.VAN_CHUYEN1,nativeQuery = true)
+    ITransport getTransPort1(Integer id1);
+    @Query(value = Sql.VAN_CHUYEN1,nativeQuery = true)
+    ITransport getTransPort2(Integer id,Integer id1);
 }

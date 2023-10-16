@@ -15,4 +15,8 @@ public class CommonController {
         model.addAttribute("trangChu",responsitory.getProductTC());
         return "layout/index";
     }
+//    @GetMapping("/a123")
+//    public String showIndex1(){
+//        return "layout/index1";
+//    }
 }
