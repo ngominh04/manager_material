@@ -51,29 +51,16 @@ public class Sql {
 //            "        end trangThai\n" +
 //            "       from product";
 
-    public static final String LOCPRICE_10="select ID id,NAME name,DESCRIPTION MoTa,IMAGE image,PRICE price,QUATITY quatity from product where PRICE < 10000000";
+    public static final String LOCPRICE_10="select ID id,NAME name,DESCRIPTION MoTa,IMAGE image,PRICE price,QUATITY quatity " +
+            "from product where PRICE < 10000000";
     public static final String LOCPRICE_10_15="select ID id,NAME name,DESCRIPTION MoTa,IMAGE image,PRICE price,QUATITY quatity from product where PRICE >=10000000 and PRICE <= 15000000";
     public static final String LOCPRICE_15_20="select ID id,NAME name,DESCRIPTION MoTa,IMAGE image,PRICE price,QUATITY quatity from product where PRICE >= 15000000 and PRICE <= 20000000";
     public static final String LOCPRICE_20_25="select ID id,NAME name,DESCRIPTION MoTa,IMAGE image,PRICE price,QUATITY quatity from product where PRICE >= 20000000 and PRICE <= 25000000";
     public static final String LOCPRICE_25_30="select ID id,NAME name,DESCRIPTION MoTa,IMAGE image,PRICE price,QUATITY quatity from product where PRICE >= 25000000 and PRICE <= 30000000";
     public static final String LOCPRICE_30="select ID id,NAME name,DESCRIPTION MoTa,IMAGE image,PRICE price,QUATITY quatity from product where PRICE > 30000000";
 
-    public static final String PRODUCT_IMAGE="select prod.ID id,prod.NAME name, prod.NOTES notes,pi.URL from product prod inner join `manager-material`.product_images pi on prod.ID = pi.ID_PRODUCT where prod.ID = ?";
-
-//    public static final String ODERS="" +
-//            "select p.ID id1,orders_details.ID id2,c.NAME tenNguoiDat,o.NAME_RECIVER tenNguoiNhan,o.PHONE phoneNguoiNhan,o.ADDRESS addressNguoiNhan,pm.NAME thanhToan,tm.NAME vanChuyen,\n" +
-//            "       orders_details.QTY soLuong,\n" +
-//            "        orders_details.PRICE tienSp,op.TOTAL phiThanhToan,ot.TOTAL phiVanChuyen, o.TOTAL_MONEY tongTien\n" +
-//            "from orders_details\n" +
-//            "inner join `manager-material`.product p on orders_details.IDPRODUCT = p.ID\n" +
-//            "inner join `manager-material`.orders o on orders_details.IDORD = o.ID\n" +
-//            "inner join `manager-material`.customer c on o.IDCUSTOMER = c.ID\n" +
-//            "inner join `manager-material`.orders_payment op on o.ID = op.IDORD\n" +
-//            "inner join `manager-material`.payment_method pm on op.IDPAYMENT = pm.ID\n" +
-//            "inner join `manager-material`.orders_transport ot on o.ID = ot.IDORD\n" +
-//            "inner join `manager-material`.transport_method tm on ot.IDTRANSPORT = tm.ID\n" +
-//            "where ot.NOTES =1 and op.STATUS = 1 and p.ID=?1 and orders_details.ID = ?2";
-
+    public static final String PRODUCT_IMAGE="select prod.ID id,prod.NAME name, prod.NOTES notes,pi.URL url " +
+            "from product prod inner join `manager-material`.product_images pi on prod.ID = pi.ID_PRODUCT where prod.ID = ?";
     public static final String ODERS="" +
             "select p.ID id1,orders_details.ID id2,c.NAME tenNguoiDat,o.NAME_RECIVER tenNguoiNhan,o.PHONE phoneNguoiNhan,o.ADDRESS addressNguoiNhan,pm.NAME thanhToan,tm.NAME vanChuyen,\n" +
             "       orders_details.QTY soLuong,\n" +
@@ -118,4 +105,5 @@ public class Sql {
             "inner join `manager-material`.orders_transport ot on tm.ID = ot.IDTRANSPORT\n" +
             "where tm.ISACTIVE=1 and ot.NOTES=1 and p.ID = ?1 and tm.ID = ?2\n" +
             "order by tm.ID asc";
+    public static final String PAYMENT="select ID id,NAME name from payment_method where ISACTIVE=1 and ID = ?";
 }

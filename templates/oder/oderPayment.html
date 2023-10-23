@@ -34,30 +34,29 @@
                 </div>
                 <div>
                     <h3>Chọn hình thức thanh toán</h3>
-                    <div th:each="pm: ${payment}">
-                        <a th:href="@{'/view/getOder/'+${productId.id}+'/pm'+${pm.id}}">
-                            <div >
-                                <div th:text="${pm.name}"></div>
-                            </div>
-                        </a>
-                    </div>
+                    <form >
+                        <div>
+                            <input type="radio" th:id="${paymentId.name}" name="payment" th:value="${paymentId.name}" checked>
+                            <label class="w3-text-teal" th:for="${paymentId.name}" th:text="${paymentId.name}"></label>
+                        </div>
+                    </form>
+                    <h5>Bạn đã chọn hình thức thanh toán: <span th:text="${paymentId.name}"></span></h5>
                 </div>
             </div>
             <div class="col-5">
                 <div >
-                    <h3>Chọn hình thức giao hàng</h3>
-                    <div th:each="tp: ${tranport}">
-                        <a th:href="@{'/view/getOder/'+${productId.id}+'/tp'+${tp.id1}}">
-                            <div style="border: 1px solid black">
-                                <p th:text="${tp.name}"></p>
-                                Giá vận chuyển: <span th:text="${#numbers.formatDecimal(tp.giaTien,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></span>
-                            </div>
-                        </a>
+                    <div >
+                        <h3>Chọn hình thức giao hàng</h3>
+                        <div th:each="tp: ${tranport}">
+                            <a th:href="@{'/view/getOder/'+${productId.id}+'/tp'+${tp.id1}}">
+                                <div style="border: 1px solid black">
+                                    <p th:text="${tp.name}"></p>
+                                    Giá vận chuyển: <span th:text="${#numbers.formatDecimal(tp.giaTien,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></span>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-5">
-<!--                <div th:text="${tranport2.tongTien}"> </div>-->
             </div>
         </div>
     </div>

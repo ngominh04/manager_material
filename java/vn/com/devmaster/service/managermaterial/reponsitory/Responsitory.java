@@ -1,5 +1,6 @@
 package vn.com.devmaster.service.managermaterial.reponsitory;
 
+import lombok.EqualsAndHashCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -82,4 +83,7 @@ public interface Responsitory extends JpaRepository<Category, Integer> {
     ITransport getTransPort1(Integer id1);
     @Query(value = Sql.VAN_CHUYEN1,nativeQuery = true)
     ITransport getTransPort2(Integer id,Integer id1);
+
+    @Query(value = Sql.PAYMENT,nativeQuery = true)
+    IPayment_method getPayment(Integer id);
 }

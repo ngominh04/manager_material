@@ -51,12 +51,12 @@
                 </div>
             </div>
             <div class="col-lg-3"></div>
-            <div class="col-lg-3" th:each="product: ${prod}" style="border: 1px solid black;margin: 2rem;text-align: center">
+            <div class="col-lg-3" th:each="product: ${prod}" style="margin: 2rem;text-align: center">
                 <img th:src="@{'/img/product_img/product_image/'+${product.image}}" style="margin-top: 0.5rem;width: 100%">
 <!--                <img th:src="@{/img/product_img/product_image/laptop_acer_aspire_1.jpg}" style="margin-top: 0.5rem;width: 350px;height: 250px">-->
                 <p th:text="${product.name}"></p>
                 <p th:text="${product.moTa}"></p>
-                <p >Giá chỉ: <span th:text="${product.price}"></span>  VNĐ</p>
+                <p >Giá chỉ: <span th:text="${#numbers.formatDecimal(product.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></span></p>
                 <p > Số lượng còn lại : <span th:text="${product.quatity}"></span></p>
                 <span th:text="${product.isActive}"></span><br>
                 <a th:href="@{'/view/productAll/'+${product.id}}">Xem chi tiết</a>

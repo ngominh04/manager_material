@@ -1,16 +1,19 @@
 package vn.com.devmaster.service.managermaterial.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import vn.com.devmaster.service.managermaterial.config.CustomUserDetal;
 import vn.com.devmaster.service.managermaterial.reponsitory.ProductRespon;
 import vn.com.devmaster.service.managermaterial.reponsitory.Responsitory;
 import vn.com.devmaster.service.managermaterial.service.Service;
-
-import javax.persistence.criteria.CriteriaBuilder;
 
 @Controller
 @RequestMapping("/view")
@@ -82,12 +85,6 @@ public class ViewController {
         return "productAll";
     }
 
-    // lấy ảnh theo id
-//    @GetMapping("/productImage")
-//    public String showProductImg(Model model,@PathVariable(name = "id") Integer id){
-//        model.addAttribute("productImage",responsitory.getProductImage(id));
-//        return "productImage";
-//    }
 
     // lấy ra product id chi tiết
     @GetMapping("/productAll/{id}")
@@ -98,11 +95,6 @@ public class ViewController {
         return "productChiTiet";
     }
 
-//    @GetMapping("/getOdertranport")
-//    String showTranport_Id(Model model, @PathVariable(name = "id1") Integer id1){
-//        model.addAttribute("tranport1",responsitory.getTransPort1(id1));
-//        return "oder/odertranport";
-//    }
 
     // id product -> trang đặt hàng
     @GetMapping("/getOder/{id}")
@@ -110,42 +102,42 @@ public class ViewController {
         model.addAttribute("productId",productRespon.findAllById(id));
         model.addAttribute("payment",responsitory.getPaymentActive());
         model.addAttribute("tranport",responsitory.getTransPort(id));
-//        model.addAttribute("tranport1",responsitory.getTransPort1(id1));
-//        model.addAttribute("tranport2",responsitory.getTransPort2(id,id1));
-//        model.addAttribute("imageId",responsitory.getProductImage(id));
+        model.addAttribute("paymentId",responsitory.getPayment(id));
         return "oder/oderChiTiet";
     }
 
     // lấy id product và id transport -> ra trang tổng tiền
-    @GetMapping("/getOder/{id}/{id1}")
+    @GetMapping("/getOder/{id}/tp{id1}")
     String showOder_2(Model model,@PathVariable(name = "id") Integer id,@PathVariable(name = "id1") Integer id1){
         model.addAttribute("productId",productRespon.findAllById(id));
         model.addAttribute("payment",responsitory.getPaymentActive());
         model.addAttribute("tranport",responsitory.getTransPort(id));
-//        model.addAttribute("tranport1",responsitory.getTransPort1(id1));
         model.addAttribute("tranport2",responsitory.getTransPort2(id,id1));
-        return "oder/oders";
+        model.addAttribute("paymentId",responsitory.getPayment(id));
+        return "oder/oderTransport";
     }
 
-//    // lấy oder theo id
-//    @GetMapping("/getOder")
-//    public String showOder(Model model,@PathVariable(name = "id2") Integer id2){
-//        model.addAttribute("oder",responsitory.getOders(id2));
-//        return "oder/oders";
-//    }
-//
-//    @GetMapping("/getOder/{id2}")
-//    public String showOders(Model model,@PathVariable(name = "id2") Integer id2){
-////        model.addAttribute("productId",productRespon.findAllById(id1));
-//        model.addAttribute("oderId",responsitory.getOders(id2));
-//        return "oder/oderChiTiet";
-//    }
+    // lấy id product và id payment -> ra trang payment
+    @GetMapping("/getOder/{id}/pm{id1}")
+    String showOder_3(Model model,@PathVariable(name = "id") Integer id,@PathVariable(name = "id1") Integer id1){
+        model.addAttribute("productId",productRespon.findAllById(id));
+        model.addAttribute("payment",responsitory.getPaymentActive());
+        model.addAttribute("tranport",responsitory.getTransPort(id));
+        model.addAttribute("tranport2",responsitory.getTransPort2(id,id1));
+        model.addAttribute("paymentId",responsitory.getPayment(id1));
+        return "oder/oderPayment";
+    }
 
-//    @GetMapping("/delete/{id}")
-//    public String deleteProduct(@PathVariable(name = "id") Integer id){
-//        service.delete(id);
-//        return "rederect:/";
-//    }
+    //chuyển từ trang tranport -> trang payment và ngược lại
+    @GetMapping("/getOder/{id}/tp{id1}/pm{id2}")
+    String showOder_3(Model model,@PathVariable(name = "id") Integer id,@PathVariable(name = "id1") Integer id1,@PathVariable(name = "id2") Integer id2){
+        model.addAttribute("productId",productRespon.findAllById(id));
+        model.addAttribute("payment",responsitory.getPaymentActive());
+        model.addAttribute("tranport",responsitory.getTransPort(id1));
+        model.addAttribute("tranport2",responsitory.getTransPort2(id,id1));
+        model.addAttribute("paymentId",responsitory.getPayment(id2));
+        return "/oder/oderPayment";
+    }
 
     // lọc dưới 10 tr
     @GetMapping("/locPrice_10")
@@ -185,5 +177,22 @@ public class ViewController {
         model.addAttribute("locPrice_25_30",responsitory.getLocPrice5());
         return "locTheoGia/locPrice5";
     }
+    @GetMapping("/login")
+    public String showLogin(){
+        return "login";
+    }
 
+    @PostMapping("/login_check")
+    public String login(){
+        // validate user, password trong database => lấy thông tin user
+        CustomUserDetal userDetal= new CustomUserDetal("admin","admin","admin");
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                userDetal,null,userDetal.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        return "redirect:/view/hp";
+    }
+    @GetMapping("/test")
+    public String test(){
+        return "test";
+    }
 }

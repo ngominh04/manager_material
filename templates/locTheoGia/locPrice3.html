@@ -15,9 +15,9 @@
         <p th:text="${product.name}"></p>
         <p th:text="${product.moTa}"></p>
         <!--                <p th:text="${product.image}"></p>-->
-        <p >Giá chỉ: <span th:text="${product.price}"></span>  VNĐ</p>
+        <p >Giá chỉ: <span th:text="${#numbers.formatDecimal(product.price,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></span></p>
         <p >Số lượng còn lại : <span th:text="${product.quatity}"></span></p>
-        <a th:href="@{/view/prod_chiTiet}">Xem chi tiết</a>
+        <a th:href="@{'/view/productAll/'+${product.id}}">Xem chi tiết</a>
       </div>
     </div>
   </div>

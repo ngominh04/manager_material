@@ -35,7 +35,7 @@
                 <div>
                     <h3>Chọn hình thức thanh toán</h3>
                     <div th:each="pm: ${payment}">
-                        <a th:href="@{'/view/getOder/'+${productId.id}+'/pm'+${pm.id}}">
+                        <a th:href="@{'/view/getOder/'+${productId.id}+'/tp'+${tranport2.id1}+'/pm'+${pm.id}}">
                             <div >
                                 <div th:text="${pm.name}"></div>
                             </div>
@@ -45,19 +45,22 @@
             </div>
             <div class="col-5">
                 <div >
-                    <h3>Chọn hình thức giao hàng</h3>
-                    <div th:each="tp: ${tranport}">
-                        <a th:href="@{'/view/getOder/'+${productId.id}+'/tp'+${tp.id1}}">
+                    <div >
+                        <h3>Chọn hình thức giao hàng</h3>
+                        <div >
                             <div style="border: 1px solid black">
-                                <p th:text="${tp.name}"></p>
-                                Giá vận chuyển: <span th:text="${#numbers.formatDecimal(tp.giaTien,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></span>
+                                <p th:text="${tranport2.name}"></p>
+                                Giá vận chuyển: <span th:text="${#numbers.formatDecimal(tranport2.giaTien,3,'DEFAULT', 0, 'DEFAULT')}+' VNĐ'"></span>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-5">
-<!--                <div th:text="${tranport2.tongTien}"> </div>-->
+            <div class="col-12">
+                <hr>
+                <h3>Tổng tiền cần thanh toán: </h3>
+                <h5>Bạn đã chọn phương thức vận chuyển <span th:text="${tranport2.name}"></span></h5>
+                <div th:text="${#numbers.formatDecimal(tranport2.tongTien,3,'DEFAULT',0,'DEFAULT')}+'VNĐ'"> </div>
             </div>
         </div>
     </div>
