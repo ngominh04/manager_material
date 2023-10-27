@@ -1,27 +1,26 @@
 package vn.com.devmaster.service.managermaterial.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import vn.com.devmaster.service.managermaterial.config.CustomUserDetal;
+import org.springframework.web.bind.annotation.*;
+import vn.com.devmaster.service.managermaterial.domain.Customer;
+import vn.com.devmaster.service.managermaterial.reponsitory.CustomerRespon;
 import vn.com.devmaster.service.managermaterial.reponsitory.ProductRespon;
 import vn.com.devmaster.service.managermaterial.reponsitory.Responsitory;
+import vn.com.devmaster.service.managermaterial.service.ParamService;
 import vn.com.devmaster.service.managermaterial.service.Service;
+import vn.com.devmaster.service.managermaterial.service.SessionService;
 
 @Controller
 @RequestMapping("/view")
 public class ViewController {
-
+    @Autowired
+    ParamService paramService;
     @Autowired
     Responsitory responsitory;
-
+    @Autowired
+    SessionService sessionService;
     @Autowired
     ProductRespon productRespon;
 
@@ -182,17 +181,46 @@ public class ViewController {
         return "login";
     }
 
+//    @PostMapping("/login_check")
+//    public String login(Model model){
+//        String uname = paramService.getString("uname","");
+//        String psw = paramService.getString("psw","");
+//        // validate user, password trong database => lấy thông tin user
+//        CustomUserDetal userDetal= new CustomUserDetal(service.finById(uname), String.valueOf(service.finById(psw)),"user");
+//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+//                userDetal,null,userDetal.getAuthorities());
+//        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+//        return "redirect:/view/hp";
+//    }
+    @Autowired
+    CustomerRespon customerRespon;
     @PostMapping("/login_check")
-    public String login(){
-        // validate user, password trong database => lấy thông tin user
-        CustomUserDetal userDetal= new CustomUserDetal("admin","admin","admin");
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                userDetal,null,userDetal.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        return "redirect:/view/hp";
+    public String login(Model  model,@RequestParam(name = "username") String username){
+//        String username = paramService.getString("username","");
+        String psw = paramService.getString("psw","");
+        try {
+            Customer customer= customerRespon.getCustomer1(username);
+            if(!customer.getPassword().equals(psw)){
+                model.addAttribute("message","invalid password");
+
+            }else {
+//                String uri = sessionService.get("security-uri");
+//                if(uri != null){
+//                    return "redirect:"+uri;
+//                }else {
+//                    model.addAttribute("message","login sucessfull");
+//                }
+                sessionService.set("username",username);
+                model.addAttribute("customer",customerRespon.getCustomer1(username));
+                model.addAttribute("customer1",customerRespon.getCustomer2(username));
+
+                return "layout/index1";
+            }
+        }catch (Exception e){
+            model.addAttribute("message","invalid user name");
+        }
+        return "login";
     }
-    @GetMapping("/test")
-    public String test(){
-        return "test";
-    }
+
+
 }

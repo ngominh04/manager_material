@@ -19,7 +19,7 @@ public class SecurityConfig {
                 // đường dẫn được tất cả các quyền (thường để cuối vì duyệt toàn bộ)
                 .antMatchers("/**").permitAll()
                 .and().formLogin()
-                .loginProcessingUrl("/login_check")
+//                .loginProcessingUrl("/login_check")
                 .loginPage("/view/login");
         return httpSecurity.build();
     }

@@ -106,4 +106,9 @@ public class Sql {
             "where tm.ISACTIVE=1 and ot.NOTES=1 and p.ID = ?1 and tm.ID = ?2\n" +
             "order by tm.ID asc";
     public static final String PAYMENT="select ID id,NAME name from payment_method where ISACTIVE=1 and ID = ?";
+//    public static final String CUSTOMER="select ID id,NAME name,USERNAME uname, PASSWORD pwd from customer where ISACTIVE =1";
+
+
+
+
 }

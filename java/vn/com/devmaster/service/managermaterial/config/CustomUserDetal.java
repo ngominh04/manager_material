@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import vn.com.devmaster.service.managermaterial.projecttion.ICustomer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +17,10 @@ public class CustomUserDetal implements UserDetails {
     private String username;
     private String pasword;
     private String role;
+
+    public CustomUserDetal(ICustomer iCustomer, String admin, String admin1) {
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> grantedAuthorities=new ArrayList<>();

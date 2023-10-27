@@ -86,4 +86,6 @@ public interface Responsitory extends JpaRepository<Category, Integer> {
 
     @Query(value = Sql.PAYMENT,nativeQuery = true)
     IPayment_method getPayment(Integer id);
+
+
 }

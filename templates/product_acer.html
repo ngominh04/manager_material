@@ -10,7 +10,7 @@
 <div layout:fragment="content">
     <div class="container-fluid">
         <div class="row" style="margin-left: 3rem">
-            <div class="col-lg-3" th:each="product: ${acer}" style="border: 1px solid black;margin: 2rem;text-align: center">
+            <div class="col-lg-3" th:each="product: ${acer}" style="border: 2px solid gainsboro;border-radius: 5%;margin: 2rem;text-align: center">
                 <img th:src="@{'/img/product_img/product_image/'+${product.image}}" style="margin-top: 0.5rem;width: 100%">
                 <p th:text="${product.name}"></p>
                 <p th:text="${product.moTa}"></p>

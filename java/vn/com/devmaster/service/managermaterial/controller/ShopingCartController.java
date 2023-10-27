@@ -3,31 +3,33 @@ package vn.com.devmaster.service.managermaterial.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import vn.com.devmaster.service.managermaterial.domain.CartItem;
 import vn.com.devmaster.service.managermaterial.domain.Product;
 import vn.com.devmaster.service.managermaterial.reponsitory.ProductRespon;
 import vn.com.devmaster.service.managermaterial.reponsitory.Responsitory;
+import vn.com.devmaster.service.managermaterial.service.ParamService;
 import vn.com.devmaster.service.managermaterial.service.Service;
 
 @Controller
 @RequestMapping("/shoping_cart")
 public class ShopingCartController {
     @Autowired
+    ParamService paramService;
+    @Autowired
     Service service;
     @Autowired
     Responsitory responsitory;
     @Autowired
     ProductRespon productRespon;
-
+    // giỏ hàng
     @GetMapping("/a")
     public String showCart(Model model){
         model.addAttribute("cartItem",service.getAllItem());
-        return "cart/shopingCart";
+        model.addAttribute("tongTien",service.getAmount()); // xử lí tổng tiền sản phẩm
+        return "cart/shopingcart";
     }
-
+    // add sản phẩm vào giỏ hàng
     @GetMapping("/add/{id}")
     public String addCart(@PathVariable(name = "id" ) Integer id){
         Product product = productRespon.findAllById(id);
@@ -42,5 +44,25 @@ public class ShopingCartController {
         }
         return "redirect:/shoping_cart/a";
     }
+    // xóa 1 sản phẩm có trong giỏ hàng theo id
+    @GetMapping("/remove/{id}")
+    public String removeCart(@PathVariable(name = "id") Integer id){
+        service.remove(id);
+        return "redirect:/shoping_cart/a";
+    }
+
+    // update quantity
+    @PostMapping("update")
+    public String update(@RequestParam(name = "id") Integer id,@RequestParam(name = "quantity")int quantity){
+        service.update(id,quantity);
+        return "redirect:/shoping_cart/a";
+    }
+//    @PostMapping("update")
+//    public String update(){
+//        Integer id = paramService.getInt("id",0);
+//        int quantity = paramService.getInt("quantity",1);
+//        return "redirect:/shoping_cart/a";
+//    }
+
 
 }

@@ -3,13 +3,13 @@ package vn.com.devmaster.service.managermaterial.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import vn.com.devmaster.service.managermaterial.domain.CartItem;
+import vn.com.devmaster.service.managermaterial.domain.Customer;
+import vn.com.devmaster.service.managermaterial.projecttion.ICustomer;
 import vn.com.devmaster.service.managermaterial.reponsitory.ProductRespon;
 
 
 import javax.transaction.Transactional;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Transactional
 @org.springframework.stereotype.Service
@@ -52,6 +52,5 @@ public class Service implements IService{
     @Override
     public double getAmount(){
         return maps.values().stream().mapToDouble(item -> item.getQuantity() * item.getPrice()).sum();
-
     }
 }

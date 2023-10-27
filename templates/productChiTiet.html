@@ -151,14 +151,16 @@
 
       <!-- Begin Page Content -->
       <div layout:fragment="content">
+
         <div class="container-fluid">
           <div class="row">
-            <div class="col-6" style="text-align: center">
+            <div class="col-6" style="text-align: center;">
               <section class="regular slider">
-                <div th:each="img: ${imageId}">
+                <div th:each="img: ${productImage}">
                   <img th:src="@{'/img/product_img'+${img.url}}">
                 </div>
               </section>
+
             </div>
             <div class="col-6" style="text-align: center">
               <!--        <img th:src="@{/img/product_img/product_image/laptop_acer_aspire_1.jpg}">-->
